@@ -1,10 +1,15 @@
 module bank_app::bank_app {
 
     use std::string::String;
-    use sui::table;
+    use sui::table::Table;
 
 
-    const ERROR_ACCOUNT_NOT_FOUND: u64 = 0;
+    const ERROR_BANK_NOT_FOUND: u64 = 1;
+    const ERROR_ACCOUNT_NOT_FOUND: u64 = 2;
+    const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 3;
+    const ERROR_INVALID_PIN: u64 = 4;
+    const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
+    const ERROR_DEPOSIT_THAN_ZERO: u64 = 6;
 
     public struct Account has key, store {
         id: UID,
@@ -16,7 +21,7 @@ module bank_app::bank_app {
     public struct Bank has key {
         id: String,
         name: String,
-        accounts: table::Table<String, Account>,
+        accounts: Table<String, Account>,
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
