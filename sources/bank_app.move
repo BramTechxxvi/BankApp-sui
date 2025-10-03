@@ -1,5 +1,6 @@
 module bank_app::bank_app {
     use std::string::String;
+    use std::table::Table;
 
     public struct Account {
         id: UID,
@@ -14,6 +15,10 @@ module bank_app::bank_app {
     }
 
     #[test]
-    
+    public fun test_create_bank(ctx: &mut TxContext) {
+        
+        };
+    }   
+
 }
 
