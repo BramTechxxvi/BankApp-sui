@@ -3,6 +3,9 @@ module bank_app::bank_app {
     use std::string::String;
     use sui::table;
 
+
+    const ERROR_ACCOUNT_NOT_FOUND: u64 = 0;
+
     public struct Account has key, store {
         id: UID,
         name: String,
