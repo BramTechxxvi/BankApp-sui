@@ -15,7 +15,7 @@ module bank_app::bank_app {
         accounts: table::Table<String, Account>,
     }
 
-    public fun create_bank(name: String, ctx: &mut TxContext) Bank {
+    public fun create_bank(name: String, ctx: &mut TxContext): Bank {
         let bank_id: UID = object::new(ctx: ctx);
         let accounts_table: table::Table<String, Account> = table::new<String>(ctx);
     }
