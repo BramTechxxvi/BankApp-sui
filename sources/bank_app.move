@@ -46,7 +46,7 @@ module bank_app::bank_app {
         let mut ctx = dummy();
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
         assert!(zenith_bank.name == b"Zenith".to_string(), ERROR_BANK_NOT_FOUND);
-        assert!(zenith_bank.name != b"Zenith".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+        assert!(zenith_bank.name != b"Zenith".to_string(), ERROR_ACCOUNT_NOT_FOUND)
     }
     
     
