@@ -22,7 +22,7 @@ module bank_app::bank_app {
     public struct Bank has key, store {
         id: UID,
         name: String,
-        accounts: table::Table<address, Account>,jjkk
+        accounts: table::Table<address, Account>,
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
@@ -42,7 +42,7 @@ module bank_app::bank_app {
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
         assert!(zenith_bank.name == b"Zenith".to_string(), ERROR_BANK_NOT_FOUND);
         assert!(!zenith_bank.name == b"Zenith".to_string(), ERROR_ACCOUNT_NOT_FOUND);
-    };
+    }
     
     
 
