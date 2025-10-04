@@ -52,9 +52,9 @@ module bank_app::bank_app {
         }
     }
 
-    public fun add_account_to_bank(account_to_be_added: Account, user_address: address, bank_to_add_account_to: &mut Bank) {
+    public fun add_account_to_bank(account_to_be_added: Account, user_address: address, bank: &mut Bank) {
         assert!(!bank.accounts.contains(user_address), ERROR_ACCOUNT_ALREADY_EXISTS);
-        bank_to_add_account_to.accounts.add(user_address, account_to_be_added);
+        bank.accounts.add(user_address, account_to_be_added);
     }
 
     public fun deposit(bank: &mut Bank, user_address: address, amount: u64) {
