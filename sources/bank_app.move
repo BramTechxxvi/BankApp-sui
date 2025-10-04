@@ -52,14 +52,14 @@ module bank_app::bank_app {
     }
 
     public fun add_account_to_bank(account_to_be_added: Account, user_address: address, bank: &mut Bank) {
-        assert!(!bank.accounts.contains(user_address), ERROR_ACCOUNT_ALREADY_EXISTS);
+        assert!(!bank.accounts.contains(user_address), ERROR_ACCOUNT_ALREADY_EXISTS); 
         bank.accounts.add(user_address, account_to_be_added);
     }
 
     public fun deposit(bank: &mut Bank, user_address: address, amount: u64) {
         assert!(amount > 0, ERROR_DEPOSIT_LESSER_THAN_ZERO);
         if(amount < 0) {
-            abort ERROR_DEPOSIT_LESSER_THAN_ZERO;
+            abort ERROR_DEPOSIT_LESSER_THAN_ZERO
         };
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         user_account.balance = user_account.balance + amount;
@@ -69,7 +69,7 @@ module bank_app::bank_app {
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         assert!(user_account.balance >= amount, ERROR_INSUFFICIENT_FUNDS);
         if (user_account.balance < amount) {
-            abort ERROR_INSUFFICIENT_FUNDS;
+            abort ERROR_INSUFFICIENT_FUNDS
         };
         user_account.balance = user_account.balance - amount;
     }
