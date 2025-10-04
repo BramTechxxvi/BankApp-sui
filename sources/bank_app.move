@@ -12,7 +12,7 @@ module bank_app::bank_app {
     const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 4;
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
     // const ERROR_DEPOSIT_THAN_ZERO: u64 = 6;
-    const ERROR_INVALID_BALANCE: U64 = 7;
+    const ERROR_INVALID_BALANCE: u64 = 7;
 
     #[allow(unused_field)]
     public struct Account has key, store {
@@ -57,7 +57,6 @@ module bank_app::bank_app {
         bank_to_add_account_to.accounts.add(user_address, account_to_be_added);
     }
 
-
     #[test]
     public fun test_create_bank() {
         let mut ctx = dummy();
@@ -97,8 +96,13 @@ module bank_app::bank_app {
         let user_address = @bram_address;
         add_account_to_bank(bram_account, user_address, &mut access_bank);
         assert!(access_bank.accounts.contains(user_address), ERROR_ACCOUNT_NOT_FOUND);
+        
         let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
-        assert!(user_account.balance == 0, ERROR_ACCOUNT_NOT_FOUND);
+        assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
+        deposit(&mut access_bank, user_address, 5_000);
+
+        let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
+        assert!(user_account.balance == 5_000, ERROR_INVALID_BALANCE);
         dummy_drop(access_bank, @access_bank_address);
     }
 
