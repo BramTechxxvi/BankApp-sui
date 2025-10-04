@@ -10,7 +10,7 @@ module bank_app::bank_app {
     const ERROR_INVALID_BANK_NAME: u64 = 2;
     const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
     const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 4;
-    // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
+    const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
     const ERROR_DEPOSIT_LESSER_THAN_ZERO: u64 = 6;
     const ERROR_INVALID_BALANCE: u64 = 7;
 
@@ -61,9 +61,18 @@ module bank_app::bank_app {
         assert!(amount > 0, ERROR_DEPOSIT_LESSER_THAN_ZERO);
         if(amount < 0) {
             abort ERROR_DEPOSIT_LESSER_THAN_ZERO;
-        }
+        };
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         user_account.balance = user_account.balance + amount;
+    }
+
+    public fun withdraw(bank: &mut Bank, user_address: address, amount: u64) {
+        let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
+        assert!(user_account.balance >= amount, ERROR_INSUFFICIENT_FUNDS);
+        if (user_account.balance < amount) {
+            abort ERROR_INSUFFICIENT_FUNDS;
+        };
+        user_account.balance = user_account.balance - amount;
     }
 
     #[test]
@@ -137,7 +146,7 @@ module bank_app::bank_app {
         let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
         assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
         withdraw(&mut access_bank, user_address, 2_000);
-        assert!(!user_account.balance == 3_000, ERROR_INVALID_BALANCE);
+        assert!(user_account.balance != 3_000, ERROR_INVALID_BALANCE);
         let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
         assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
         dummy_drop(access_bank, @access_bank_address);
