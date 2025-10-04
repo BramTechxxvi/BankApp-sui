@@ -9,6 +9,7 @@ module bank_app::bank_app {
     const ERROR_BANK_NOT_FOUND: u64 = 1;
     const ERROR_INVALID_BANK_NAME: u64 = 2;
     const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
+    const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 4;
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
     // const ERROR_DEPOSIT_THAN_ZERO: u64 = 6;
 
@@ -51,7 +52,10 @@ module bank_app::bank_app {
         }
     }
 
-    public fun add_account _to_bank 
+    public fun add_account_to_bank(account_to_be_added: Account, user_address: address, bank_to_add_account_to: &mut Bank) {
+        assert!(!bank.accounts.contains(user_address), ERROR_ACCOUNT_ALREADY_EXISTS);
+        bank_to_add_account_to.accounts.add(user_address, account_to_be_added);
+    }
 
 
     #[test]
@@ -75,7 +79,7 @@ module bank_app::bank_app {
         assert!(bram_account.pin == b"1234".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
         let user_address = @bram_address;
-        table::add(&mut access_bank.accounts, user_address, bram_account);
+        add_account_to_bank(bram_account, user_address, &mut access_bank);
         dummy_drop(access_bank, @access_bank_address);
     }
 
