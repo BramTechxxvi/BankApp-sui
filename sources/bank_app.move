@@ -2,8 +2,10 @@ module bank_app::bank_app {
 
     use std::string::String;
     use sui::table;
+    use sui::table::drop;
     use std::address;
-    use sui::object;
+    use sui::object::delete;
+    use sui::transfer;
     use sui::tx_context::dummy;
 
 
