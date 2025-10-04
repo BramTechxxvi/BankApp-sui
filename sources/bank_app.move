@@ -95,6 +95,8 @@ module bank_app::bank_app {
 
         let user_address = @bram_address;
         add_account_to_bank(bram_account, user_address, &mut access_bank);
+        assert!(access_bank.accounts.contains(user_address), ERROR_ACCOUNT_NOT_FOUND);
+        let user_account = access_bank.accounts.borrow_mut(&user_address);
         dummy_drop(access_bank, @access_bank_address);
     }
 
