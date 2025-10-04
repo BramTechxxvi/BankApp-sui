@@ -2,6 +2,7 @@ module bank_app::bank_app {
 
     use std::string::String;
     use sui::table;
+    use std::address;
 
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
@@ -21,24 +22,28 @@ module bank_app::bank_app {
     public struct Bank has key, store {
         id: UID,
         name: String,
-        accounts: table::Table<address, Account>,
+        accounts: table::Table<address, Account>,jjkk
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-        let id = object::new(ctx: ctx);
-        let accounts = table::new<String>(ctx);
+        let id = object::new(ctx);
+        let accounts = table::new<address, Account>(ctx);
 
         Bank {
             id,
-            nam
-            accounts: accounts_table,
+            name,
+            accounts,
         }
     }
 
     #[test]
-    public fun test_create_bank(ctx: &mut TxContext) {
-        let zenith_bank : Bank = create_bank("Zenith", bank_id, accounts_table);
-    }
+    public fun test_create_bank() {
+
+        let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
+        assert!(zenith_bank.name == b"Zenith".to_string(), ERROR_BANK_NOT_FOUND);
+        assert!(!zenith_bank.name == b"Zenith".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+    };
+    
     
 
 }
