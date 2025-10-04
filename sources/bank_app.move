@@ -43,6 +43,17 @@ module bank_app::bank_app {
         transfer::public_transfer(obj, user);
     }
 
+    public fun create_account(name: String, pin: String, ctx: &mut TxContext): Account {
+        let id = object::new(ctx);
+        Account {
+            id,
+            name,
+            pin,
+            balance: 0,
+        }
+    }
+
+
     #[test]
     public fun test_create_bank() {
         let mut ctx = dummy();
@@ -62,6 +73,10 @@ module bank_app::bank_app {
         let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
         assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
         assert!(bram_account.pin == b"1234".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+
+        let user_address = @bram_address;
+        table::add(&mut access_bank.accounts, user_address, bram_account);
+        let fetched_account = table::borrow(&access_bank.accounts, user_address);
     
     }
 
