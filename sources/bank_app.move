@@ -1,7 +1,7 @@
 module bank_app::bank_app {
 
     use std::string::String;
-    use sui::table::Table;
+    use sui::table;
 
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
@@ -21,12 +21,12 @@ module bank_app::bank_app {
     public struct Bank has key {
         id: String,
         name: String,
-        accounts: Table<String, Account>,
+        accounts: table::Table<String, Account>,
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-        let bank_id: UID = object::new(ctx: ctx);
-        let accounts_table: table::Table<String, Account> = table::new<String>(ctx);
+        let bank_id = object::new(ctx: ctx);
+        let accounts_table: tab = table::new<String>(ctx);
 
         Bank {
             id: bank_id,
