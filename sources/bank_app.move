@@ -59,6 +59,9 @@ module bank_app::bank_app {
 
     public fun deposit(bank: &mut Bank, user_address: address, amount: u64) {
         assert!(amount > 0, ERROR_DEPOSIT_LESSER_THAN_ZERO);
+        if(amount < 0) {
+            abort ERROR_DEPOSIT_LESSER_THAN_ZERO;
+        }
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         user_account.balance = user_account.balance + amount;
     }
@@ -109,6 +112,34 @@ module bank_app::bank_app {
 
         let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
         assert!(user_account.balance == 5_000, ERROR_INVALID_BALANCE);
+        dummy_drop(access_bank, @access_bank_address);
+    }
+
+    #[test]
+    public fun test_withdrawal() {
+        let mut ctx = dummy();
+        let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
+        assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
+        assert!(access_bank.name != b"Zenith".to_string() , ERROR_INVALID_BANK_NAME);
+
+        let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
+        assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+        assert!(bram_account.pin == b"1234".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+
+        let user_address = @bram_address;
+        add_account_to_bank(bram_account, user_address, &mut access_bank);
+        assert!(access_bank.accounts.contains(user_address), ERROR_ACCOUNT_NOT_FOUND);
+        
+        // let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
+        // assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
+        // deposit(&mut access_bank, user_address, 5_000);
+
+        let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
+        assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
+        withdraw(&mut access_bank, user_address, 2_000);
+        assert!(!user_account.balance == 3_000, ERROR_INVALID_BALANCE);
+        let user_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, user_address);
+        assert!(user_account.balance == 0, ERROR_INVALID_BALANCE);
         dummy_drop(access_bank, @access_bank_address);
     }
 
