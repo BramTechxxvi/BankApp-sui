@@ -7,7 +7,8 @@ module bank_app::bank_app {
     use sui::tx_context::dummy;
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
-    const ERROR_ACCOUNT_NOT_FOUND: u64 = 2;
+    const ERROR_INVALID_BANK_NAME: u64 = 2;
+    const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
     // const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 3;
     // const ERROR_INVALID_PIN: u64 = 4;
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
@@ -47,9 +48,16 @@ module bank_app::bank_app {
         let mut ctx = dummy();
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
         assert!(zenith_bank.name == b"Zenith".to_string() , ERROR_BANK_NOT_FOUND);
+        assert!(zenith_bank.name != b"Access".to_string() , ERROR_INVALID_BANK_NAME);
         dummy_drop(zenith_bank, @zenith_bank_address);
     }
 
-    #
+    #[test]
+    public fun test_create_account() {
+        let mut ctx = dummy();
+        let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
+        assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
+        // dummy_drop(zenith_bank, @zenith_bank_address);
+    }
 
 }
