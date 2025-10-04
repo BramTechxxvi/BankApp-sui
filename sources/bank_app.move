@@ -19,7 +19,7 @@ module bank_app::bank_app {
     }
 
     public struct Bank has key {
-        id: String,
+        id: UID,
         name: String,
         accounts: table::Table<String, Account>,
     }
