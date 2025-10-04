@@ -58,6 +58,10 @@ module bank_app::bank_app {
         let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
         assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
         dummy_drop(access_bank, @access_bank_address);
+
+        let
     }
+
+    fun create
 
 }
