@@ -2,7 +2,8 @@ module bank_app::bank_app {
 
     use std::string::String;
     use sui::table;
-    // use std::address;
+    use std::address;
+    use sui::object;
     use sui::tx_context::dummy;
 
 
@@ -46,7 +47,7 @@ module bank_app::bank_app {
         let mut ctx = dummy();
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
         assert!(zenith_bank.name == b"Zenith".to_string(), ERROR_BANK_NOT_FOUND);
-        assert!(zenith_bank.name != b"Zenith".to_string(), ERROR_ACCOUNT_NOT_FOUND)
+        dummy_drop(zenith_bank, @zenith_bank_address);
     }
     
     
