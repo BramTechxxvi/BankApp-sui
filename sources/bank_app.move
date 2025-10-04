@@ -25,12 +25,12 @@ module bank_app::bank_app {
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-        let bank_id = object::new(ctx: ctx);
+        let id = object::new(ctx: ctx);
         let accounts = table::new<String>(ctx);
 
         Bank {
-            id: bank_id,
-            name: name,
+            id,
+            nam
             accounts: accounts_table,
         }
     }
