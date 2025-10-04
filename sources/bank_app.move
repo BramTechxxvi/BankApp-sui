@@ -18,15 +18,15 @@ module bank_app::bank_app {
         balance: u64,
     }
 
-    public struct Bank has key {
+    public struct Bank has key, store {
         id: UID,
         name: String,
-        accounts: table::Table<String, Account>,
+        accounts: table::Table<address, Account>,
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
         let bank_id = object::new(ctx: ctx);
-        let accounts_table: tab = table::new<String>(ctx);
+        let accounts = table::new<String>(ctx);
 
         Bank {
             id: bank_id,
