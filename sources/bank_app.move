@@ -26,26 +26,27 @@ module bank_app::bank_app {
         accounts: table::Table<address, Account>,
     }
 
-    
-}
+    public fun create_bank(name: String, ctx: &mut TxContext): Bank {
+        let id = sui::object::new(ctx);
+        let accounts = table::new<address, Account>(ctx);
 
-
-
-
-
-
-
-
-
-public fun dummy_drop(obj: Bank, user: address) {
-    transfer::public_transfer(obj, user);
-}
-
-#[test]
-public fun test_create_bank() {
-    let mut ctx = dummy();
-    let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
-    assert!(zenith_bank.name == "Zenith" , ERROR_BANK_NOT_FOUND);
-    dummy_drop(zenith_bank, 
+        Bank {
+            id,
+            name,
+            accounts,
+        }
     }
+
+    public fun dummy_drop(obj: Bank, user: address) {
+        transfer::public_transfer(obj, user);
+    }
+
+    #[test]
+    public fun test_create_bank() {
+        let mut ctx = dummy();
+        let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
+        assert!(zenith_bank.name == "Zenith" , ERROR_BANK_NOT_FOUND);
+        dummy_drop(zenith_bank, @zenith_bank_address);
+    }
+
 }
