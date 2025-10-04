@@ -1,13 +1,10 @@
 module bank_app::bank_app {
-
     use std::string::String;
     use sui::table;
-    use sui::table::drop;
     use std::address;
     use sui::object::delete;
-    use sui::transfer;
+    use sui::table::drop;
     use sui::tx_context::dummy;
-
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
     const ERROR_ACCOUNT_NOT_FOUND: u64 = 2;
@@ -22,37 +19,38 @@ module bank_app::bank_app {
         pin: String,
         balance: u64,
     }
-
-    public struct Bank has key, store {
-        id: UID,
-        name: String,
-        accounts: table::Table<address, Account>
-    }
-
-    public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-        let id = object::new(ctx);
-        let accounts = table::new<address, Account>(ctx);
-
-        Bank {
-            id,
-            name,
-            accounts,
-        }
-    }
-
-    public fun dummy_drop(obj: Bank, user: address) {
-        transfer::public_transfer(obj, user);
-    }
-
-    #[test]
-    public fun test_create_bank() {
-        let mut ctx = dummy();
-        let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
-        assert!(zenith_bank.name == b"Zenith".to_string(), ERROR_BANK_NOT_FOUND);
-        dummy_drop(zenith_bank, @zenith_bank_address);
-    }
-    
-    
-
 }
 
+
+
+
+
+public struct Bank has key, store {
+    id: UID,
+    name: String,
+    accounts: table::Table<address, Account>,
+}
+
+public fun create_bank(name: String, ctx: &mut TxContext): Bank {
+    let id = sui::object::new(ctx);
+    let accounts = table::new<address, Account>(ctx);
+
+    Bank {
+        id,
+        name,
+        accounts,
+    }
+}
+
+public fun dummy_drop(obj: Bank, user: address) {
+    transfer::public_transfer(obj, user);
+}
+
+#[test]
+public fun test_create_bank() {
+    let mut ctx = dummy();
+    let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
+    assert!(zenith_bank.name == "Zenith" , ERROR_BANK_NOT_FOUND);
+    dummy_drop(zenith_bank, 
+    }
+}
