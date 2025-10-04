@@ -51,6 +51,8 @@ module bank_app::bank_app {
         }
     }
 
+    public fun add_account _to_bank 
+
 
     #[test]
     public fun test_create_bank() {
@@ -75,7 +77,6 @@ module bank_app::bank_app {
         let user_address = @bram_address;
         table::add(&mut access_bank.accounts, user_address, bram_account);
         dummy_drop(access_bank, @access_bank_address);
-    
     }
 
 }
