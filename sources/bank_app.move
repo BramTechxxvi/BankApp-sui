@@ -76,7 +76,7 @@ module bank_app::bank_app {
 
         let user_address = @bram_address;
         table::add(&mut access_bank.accounts, user_address, bram_account);
-        let fetched_account = table::borrow(&access_bank.accounts, user_address);
+        dummy_drop(access_bank, @access_bank_address);
     
     }
 
