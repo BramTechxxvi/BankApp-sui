@@ -13,6 +13,7 @@ module bank_app::bank_app {
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
     // const ERROR_DEPOSIT_THAN_ZERO: u64 = 6;
 
+    #[allow(unused_field)]
     public struct Account has key, store {
         id: UID,
         name: String,
@@ -27,7 +28,7 @@ module bank_app::bank_app {
     }
 
     public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-        let id = sui::object::new(ctx);
+        let id = object::new(ctx);
         let accounts = table::new<address, Account>(ctx);
 
         Bank {
@@ -45,7 +46,7 @@ module bank_app::bank_app {
     public fun test_create_bank() {
         let mut ctx = dummy();
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
-        assert!(zenith_bank.name == "Zenith" , ERROR_BANK_NOT_FOUND);
+        assert!(zenith_bank.name == b"Zenih".to_string() , ERROR_BANK_NOT_FOUND);
         dummy_drop(zenith_bank, @zenith_bank_address);
     }
 
