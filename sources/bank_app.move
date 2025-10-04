@@ -19,28 +19,23 @@ module bank_app::bank_app {
         pin: String,
         balance: u64,
     }
-}
 
-
-
-
-
-public struct Bank has key, store {
-    id: UID,
-    name: String,
-    accounts: table::Table<address, Account>,
-}
-
-public fun create_bank(name: String, ctx: &mut TxContext): Bank {
-    let id = sui::object::new(ctx);
-    let accounts = table::new<address, Account>(ctx);
-
-    Bank {
-        id,
-        name,
-        accounts,
+    public struct Bank has key, store {
+        id: UID,
+        name: String,
+        accounts: table::Table<address, Account>,
     }
+
+    
 }
+
+
+
+
+
+
+
+
 
 public fun dummy_drop(obj: Bank, user: address) {
     transfer::public_transfer(obj, user);
