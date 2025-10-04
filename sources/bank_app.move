@@ -8,7 +8,7 @@ module bank_app::bank_app {
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
     const ERROR_INVALID_BANK_NAME: u64 = 2;
-    const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
+    // const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
     // const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 3;
     // const ERROR_INVALID_PIN: u64 = 4;
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
@@ -57,11 +57,10 @@ module bank_app::bank_app {
         let mut ctx = dummy();
         let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
         assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
-        dummy_drop(access_bank, @access_bank_address);
+        assert!(access.bank.name == b"Zenith".to_string() , ERROR_INVALID_BANK_NAME);
 
-        let
+        let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
+    
     }
-
-    fun create
 
 }
