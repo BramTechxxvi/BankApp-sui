@@ -2,7 +2,8 @@ module bank_app::bank_app {
 
     use std::string::String;
     use sui::table;
-    use std::address;
+    // use std::address;
+    use sui::tx_context::dummy;
 
 
     const ERROR_BANK_NOT_FOUND: u64 = 1;
