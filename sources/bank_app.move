@@ -11,7 +11,7 @@ module bank_app::bank_app {
     const ERROR_ACCOUNT_NOT_FOUND: u64 = 3;
     const ERROR_ACCOUNT_ALREADY_EXISTS: u64 = 4;
     // const ERROR_INSUFFICIENT_FUNDS: u64 = 5;
-    // const ERROR_DEPOSIT_THAN_ZERO: u64 = 6;
+    const ERROR_DEPOSIT_LESSER_THAN_ZERO: u64 = 6;
     const ERROR_INVALID_BALANCE: u64 = 7;
 
     #[allow(unused_field)]
@@ -55,6 +55,12 @@ module bank_app::bank_app {
     public fun add_account_to_bank(account_to_be_added: Account, user_address: address, bank_to_add_account_to: &mut Bank) {
         assert!(!bank.accounts.contains(user_address), ERROR_ACCOUNT_ALREADY_EXISTS);
         bank_to_add_account_to.accounts.add(user_address, account_to_be_added);
+    }
+
+    public fun deposit(bank: &mut Bank, user_address: address, amount: u64) {
+        assert!(amount > 0, ERROR_DEPOSIT_LESSER_THAN_ZERO);
+        let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
+        user_account.balance = user_account.balance + amount;
     }
 
     #[test]
