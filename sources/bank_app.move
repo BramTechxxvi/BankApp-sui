@@ -148,5 +148,4 @@ module bank_app::bank_app {
         assert!(user_account.balance != 0, ERROR_INVALID_BALANCE);
         dummy_drop(access_bank, @access_bank_address);
     }
-
 }
