@@ -59,9 +59,9 @@ module bank_app::bank_app {
 
     public fun deposit(bank: &mut Bank, user_address: address, amount: u64) {
         assert!(amount > 0, ERROR_DEPOSIT_LESSER_THAN_ZERO);
-        if(amount < 0) {
-            abort ERROR_DEPOSIT_LESSER_THAN_ZERO;
-        };
+        // if(amount < 0) {
+        //     abort ERROR_DEPOSIT_LESSER_THAN_ZERO;
+        // };
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         user_account.balance = user_account.balance + amount;
     }
@@ -69,9 +69,9 @@ module bank_app::bank_app {
     public fun withdraw(bank: &mut Bank, user_address: address, amount: u64) {
         let user_account = table::borrow_mut<address, Account>(&mut bank.accounts, user_address);
         assert!(user_account.balance >= amount, ERROR_INSUFFICIENT_FUNDS);
-        if (user_account.balance < amount) {
-            abort ERROR_INSUFFICIENT_FUNDS;
-        };
+        // if (user_account.balance < amount) {
+        //     abort ERROR_INSUFFICIENT_FUNDS;
+        // };
         user_account.balance = user_account.balance - amount;
     }
 
