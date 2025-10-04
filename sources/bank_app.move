@@ -14,7 +14,6 @@ module bank_app::bank_app {
     const ERROR_DEPOSIT_LESSER_THAN_ZERO: u64 = 6;
     const ERROR_INVALID_BALANCE: u64 = 7;
 
-    #[allow(unused_field)]
     public struct Account has key, store {
         id: UID,
         name: String,
