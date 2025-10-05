@@ -149,4 +149,7 @@ module bank_app::bank_app {
     }
 
     #[test]
+    public fun test_tranfer_from_one_account_to_another() {
+
+    }
 }
