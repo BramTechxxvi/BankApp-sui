@@ -174,9 +174,16 @@ module bank_app::bank_app {
         assert!(bram_access_account.balance == 0, ERROR_INVALID_BALANCE);
         deposit(&mut access_bank, access_bank_user_address, 5_000);
 
-        transfer(&mut access_bank, access_bank_user_address, 1_800, sterling_bank, sterling_bank, sterling_bank_user_address);
+        transfer(&mut access_bank, access_bank_user_address, 1_800, sterling_bank, sterling_bank_user_address);
 
-        
+        let bram_access_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, access_bank_user_address);
+        assert!(bram_access_account.balance == 3_200, ERROR_INVALID_BALANCE);
+
+        let eric_sterling_account = table::borrow_mut<address, Account>(&mut sterling_bank.accounts, sterling_bank_user_address);
+        assert!(eric_sterling_account.balance == 1_800, ERROR_INVALID_BALANCE);
+
+        du
+
 
     
 
