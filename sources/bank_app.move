@@ -74,6 +74,19 @@ module bank_app::bank_app {
         user_account.balance = user_account.balance - amount;
     }
 
+    public fun transfer(sender_bank: &mut Bank, sender_address: address, amount: u64, recipient_bank: &mut Bank, recipient_address: address) {
+        let sender_account = table::borrow_mut<address, Account>(&mut sender_bank.accounts, sender_address);
+        let recipient_account = table::borrow_mut<address, Account>(&mut recipient_bank.accounts, recipient_address);
+        assert!(sender_account.balance >= amount);
+
+        if(sender_account.balance < amount) {
+            abort ERROR_INSUFFICIENT_FUNDS
+        };
+        sender_account.balance = sender_account.balance - amount;
+        recipient_account.balance = recipient_account.balance + amount
+
+    }
+
     #[test]
     public fun test_create_bank() {
         let mut ctx = dummy();
@@ -162,7 +175,7 @@ module bank_app::bank_app {
         assert!(access_bank.accounts.contains(access_bank_user_address), ERROR_ACCOUNT_NOT_FOUND);
 
         let mut sterling_bank = create_bank(b"Sterling".to_string(), &mut ctx);
-        assert!(sterling_bank.name == b"Sterlng".to_string(), ERROR_BANK_NOT_FOUND);
+        assert!(sterling_bank.name == b"Sterling".to_string(), ERROR_BANK_NOT_FOUND);
         let eric_account = create_account(b"Eric".to_string(), b"1234".to_string(), &mut ctx);
         assert!(eric_account.name == b"Eric".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
@@ -174,7 +187,7 @@ module bank_app::bank_app {
         assert!(bram_access_account.balance == 0, ERROR_INVALID_BALANCE);
         deposit(&mut access_bank, access_bank_user_address, 5_000);
 
-        transfer(&mut access_bank, access_bank_user_address, 1_800, sterling_bank, sterling_bank_user_address);
+        transfer(&mut access_bank, access_bank_user_address, 1_800, &mut sterling_bank, sterling_bank_user_address);
 
         let bram_access_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, access_bank_user_address);
         assert!(bram_access_account.balance == 3_200, ERROR_INVALID_BALANCE);
