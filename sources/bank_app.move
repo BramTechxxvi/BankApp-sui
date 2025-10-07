@@ -170,6 +170,14 @@ module bank_app::bank_app {
         add_account_to_bank(eric_account, sterling_bank_user_address, &mut access_bank);
         assert!(access_bank.accounts.contains(sterling_bank_user_address), ERROR_ACCOUNT_NOT_FOUND);
 
+        let bram_access_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, access_bank_user_address);
+        assert!(bram_access_account.balance == 0, ERROR_INVALID_BALANCE);
+        deposit(&mut access_bank, access_bank_user_address, 5_000);
+
+        transfer(&mut access_bank, access_bank_user_address, 1_800, sterling_bank, sterling_bank, sterling_bank_user_address);
+
+        
+
     
 
 
