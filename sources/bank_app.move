@@ -151,22 +151,28 @@ module bank_app::bank_app {
     #[test]
     public fun test_tranfer_from_one_account_to_another() {
         let mut ctx = dummy();
-        // creating three bank accounts to work with
+        // creating three bank accounts to work with and an account to each
         let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
         assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
-
-        let mut sterling_bank = create_bank(b"Sterling".to_string(), &mut ctx);
-        assert!(sterling_bank.name == b"Sterlng".to_string(), ERROR_BANK_NOT_FOUND);
-
-        let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
-        assert!(zenith_bank.name == b"Zenith".to_string() , ERROR_BANK_NOT_FOUND);
-
-        // creating three accounts to different banks to work with
         let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
         assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
-        let user_address = @bram_address;
-        add_account_to_bank(bram_account, user_address, &mut access_bank);
-        assert!(access_bank.accounts.contains(user_address), ERROR_ACCOUNT_NOT_FOUND);
+        let access_bank_user_address = @bram_address;
+        add_account_to_bank(bram_account, access_bank_user_address, &mut access_bank);
+        assert!(access_bank.accounts.contains(access_bank_user_address), ERROR_ACCOUNT_NOT_FOUND);
+
+        let mut sterling_bank = create_bank(b"Sterling".to_string(), &mut ctx);
+        assert!(sterling_bank.name == b"Sterlng".to_string(), ERROR_BANK_NOT_FOUND);
+        let eric_account = create_account(b"Eric".to_string(), b"1234".to_string(), &mut ctx);
+        assert!(eric_account.name == b"Eric", ERROR_ACCOUNT_NOT_FOUND);
+
+        let sterling_bank_user_address = @ericalli_address;
+        add_account_to_bank(eric_account, sterling_bank_user_address, &mut access_bank);
+        assert!(access_bank.accounts.contains(sterling_bank_user_address), ERROR_ACCOUNT_NOT_FOUND);
+
+    
+
+
+
     }
 }
