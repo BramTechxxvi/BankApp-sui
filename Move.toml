@@ -21,7 +21,11 @@ edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 bank_app = "0x0"
 zenith_bank_address = "0xE1"
 access_bank_address = "0xE2"
+sterling_bank_address = "0xE3"
 bram_address = "0xB21"
+ericalli_address = "0xB22"
+suliha_address = "0xB23"
+
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.
