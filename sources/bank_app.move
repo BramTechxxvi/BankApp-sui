@@ -151,6 +151,7 @@ module bank_app::bank_app {
     #[test]
     public fun test_tranfer_from_one_account_to_another() {
         let mut ctx = dummy();
+        // creating three bank accounts to work with
         let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
         assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
 
@@ -160,6 +161,7 @@ module bank_app::bank_app {
         let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
         assert!(zenith_bank.name == b"Zenith".to_string() , ERROR_BANK_NOT_FOUND);
 
+        // creating three accounts to different banks to work with
         let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
         assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
