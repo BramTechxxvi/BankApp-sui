@@ -182,12 +182,7 @@ module bank_app::bank_app {
         let eric_sterling_account = table::borrow_mut<address, Account>(&mut sterling_bank.accounts, sterling_bank_user_address);
         assert!(eric_sterling_account.balance == 1_800, ERROR_INVALID_BALANCE);
 
-        du
-
-
-    
-
-
-
+        dummy_drop(access_bank, @access_bank_address);
+        dummy_drop(sterling_bank, @sterling_bank_address);
     }
 }
