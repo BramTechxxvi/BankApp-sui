@@ -150,6 +150,15 @@ module bank_app::bank_app {
 
     #[test]
     public fun test_tranfer_from_one_account_to_another() {
+        let mut ctx = dummy();
+        let mut access_bank = create_bank(b"Access".to_string(), &mut ctx);
+        assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
 
+        let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
+        assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
+
+        let user_address = @bram_address;
+        add_account_to_bank(bram_account, user_address, &mut access_bank);
+        assert!(access_bank.accounts.contains(user_address), ERROR_ACCOUNT_NOT_FOUND);
     }
 }
