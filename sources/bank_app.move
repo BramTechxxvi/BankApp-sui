@@ -180,7 +180,7 @@ module bank_app::bank_app {
         assert!(eric_account.name == b"Eric".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
         let sterling_bank_user_address = @ericalli_address;
-        add_account_to_bank(eric_account, sterling_bank_user_address, &mut access_bank);
+        add_account_to_bank(eric_account, sterling_bank_user_address, &mut sterling_bank);
         assert!(access_bank.accounts.contains(sterling_bank_user_address), ERROR_ACCOUNT_NOT_FOUND);
 
         let bram_access_account = table::borrow_mut<address, Account>(&mut access_bank.accounts, access_bank_user_address);
