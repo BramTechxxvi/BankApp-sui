@@ -83,7 +83,7 @@ module bank_app::bank_app {
             abort ERROR_INSUFFICIENT_FUNDS
         };
         sender_account.balance = sender_account.balance - amount;
-        recipient_account.balance = recipient_account.balance + amount
+        recipient_account.balance = recipient_account.balance + amount;
     }
 
     #[test]
