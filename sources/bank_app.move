@@ -155,9 +155,10 @@ module bank_app::bank_app {
         assert!(access_bank.name == b"Access".to_string() , ERROR_BANK_NOT_FOUND);
 
         let mut sterling_bank = create_bank(b"Sterling".to_string(), &mut ctx);
-        assert!(sterling_bank.name == b"Sterlng".to_string(), &mut ctx);
+        assert!(sterling_bank.name == b"Sterlng".to_string(), ERROR_BANK_NOT_FOUND);
 
-        
+        let mut zenith_bank = create_bank(b"Zenith".to_string(), &mut ctx);
+        assert!(zenith_bank.name == b"Zenith".to_string() , ERROR_BANK_NOT_FOUND);
 
         let bram_account = create_account(b"Bram".to_string(), b"1234".to_string(), &mut ctx);
         assert!(bram_account.name == b"Bram".to_string(), ERROR_ACCOUNT_NOT_FOUND);
