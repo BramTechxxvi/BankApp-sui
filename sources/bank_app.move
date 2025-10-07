@@ -164,7 +164,7 @@ module bank_app::bank_app {
         let mut sterling_bank = create_bank(b"Sterling".to_string(), &mut ctx);
         assert!(sterling_bank.name == b"Sterlng".to_string(), ERROR_BANK_NOT_FOUND);
         let eric_account = create_account(b"Eric".to_string(), b"1234".to_string(), &mut ctx);
-        assert!(eric_account.name == b"Eric", ERROR_ACCOUNT_NOT_FOUND);
+        assert!(eric_account.name == b"Eric".to_string(), ERROR_ACCOUNT_NOT_FOUND);
 
         let sterling_bank_user_address = @ericalli_address;
         add_account_to_bank(eric_account, sterling_bank_user_address, &mut access_bank);
